@@ -17,13 +17,17 @@ export default function guessANumber() {
     submitBtn.addEventListener("click", function () {
         let playerGuess = document.getElementById('guessField').value;
 
-        if (isNaN(playerGuess) === true) {
+        if(playerGuess === ''){
+            errorDiv.innerText = "Please enter a number between one and ten.";
+        }
+        else if (isNaN(playerGuess) === true) {
             errorDiv.innerText = "No, not a letter! It burns us! Please enter a number!";
         } else {
             errorDiv.innerText = "";
             playGame(playerGuess);
         }
-    });
+
+    }); 
 
     function playGame(playNum) {
         let message = "";
@@ -68,8 +72,8 @@ export default function guessANumber() {
     function playAgain() {
         randNum = Math.floor(Math.random() * 10 + 1);
         yesOrNoDivWrapper.className = 'yes-or-no-wrapper';
-        yesInput.className = 'yes-input';
-        noInput.className = 'no-input';
+        yesInput.className = 'btn yes-input';
+        noInput.className = 'btn no-input';
         yesInput.innerText = 'click here if YES';
         noInput.innerText = 'click here if NO';
         yesInput.setAttribute('type', 'submit');
