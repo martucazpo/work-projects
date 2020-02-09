@@ -10,33 +10,40 @@ export default function guessANumber() {
     let yesOrNoDivWrapper = document.createElement('div');
     let yesInput = document.createElement('button');
     let noInput = document.createElement('button');
+    let guessMess = '';
+    let message = '';
     let guessArr = [];
     let guess = 1;
 
 
     submitBtn.addEventListener("click", function () {
         let playerGuess = document.getElementById('guessField').value;
+        let playerNumber = parseInt(playerGuess);
 
         if(playerGuess === ''){
             errorDiv.innerText = "Please enter a number between one and ten.";
         }
-        else if (isNaN(playerGuess) === true) {
+        else if (isNaN(playerNumber) === true) {
             errorDiv.innerText = "No, not a letter! It burns us! Please enter a number!";
         } else {
             errorDiv.innerText = "";
-            playGame(playerGuess);
+            playGame(playerNumber);
         }
 
     }); 
 
     function playGame(playNum) {
-        let message = "";
-        let guessMess = "You have used " + guess +
+        let prevGuess = guessArr.toString().replace(',',' ');
+        messageDiv.innerText = '';
+        guessDiv.innerHTML = '';
+        guessMess = "You have used " + guess +
             " guess(es). Your current guess is: " + playNum +
-            " and your previous guesses were: " +
-            `${guessArr}` + ".";
+            " and your previous guess(es) were/was: " +
+            `${prevGuess}` + ".";
+        message = '';
 
         if (playNum == randNum) {
+            message = '';
             guess++;
             message = "you guessed right!";
             guessArr.push(playNum);
@@ -49,6 +56,7 @@ export default function guessANumber() {
             guess = 0;
             playAgain();
         } else if (playNum < randNum) {
+            message = '';
             message = "you guessed too low!";
             guess++;
             guessArr.push(playNum);
@@ -57,6 +65,7 @@ export default function guessANumber() {
             messageDiv.innerText = message;
             guessField.value = '';
         } else {
+            message = '';
             guess++;
             message = "you guessed too high!";
             guessArr.push(playNum);
@@ -82,15 +91,30 @@ export default function guessANumber() {
         yesOrNoDivWrapper.append(yesInput);
         yesOrNoDivWrapper.append(noInput);
         errorDiv.innerText = "Would You Like To Play Again? ";
+        guessDiv.innerHTML = '';
+        messageDiv.innerText = '';
+        message = '';
+        guessMess = '';
+        guess = 0;
+        guessArr = [];
 
         yesInput.addEventListener('click', function () {
             let playerGuess = document.getElementById('guessField').value;
+            let playerNumber = parseInt(playerGuess);
             yesOrNoDivWrapper.remove(yesInput);
             yesOrNoDivWrapper.remove(noInput);
+            guessMess = '';
+            message = '';
+            guess = 1;
             guessArr = [];
             errorDiv.innerText = '';
+            guessDiv.innerHTML = '';
             messageDiv.innerText = '';
-            playGame(playerGuess);
+            if(isNaN(playerNumber === false)){
+            playGame(playerNumber);
+            } else {
+                message = 'please enter a number';
+            }
         });
 
         noInput.addEventListener('click', function () {
